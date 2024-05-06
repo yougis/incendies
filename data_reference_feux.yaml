@@ -1,0 +1,349 @@
+sources:
+  sentinel_incendies_2020:
+    args:
+      geopandas_kwargs:
+        geom_col: geometry
+        crs: 3163
+      sql_expr: select * from feux."sentinel_incendies_2020_vfinale"
+      table: feux."sentinel_incendies_2020_vfinale"
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_WORKSPACE")}}
+    description: Incendies Sentinel 2020
+    driver: intake_geopandas.geopandas.PostGISSource
+  sentinel_surfaces_brulees_2020:
+    args:
+      geopandas_kwargs:
+        geom_col: geometry
+        crs: 3163
+      sql_expr: select * from processing."sentinel_surfaces_brulees_2020_vfinale"
+      table: processing."sentinel_surfaces_brulees_2020_vfinale"
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_WORKSPACE")}}
+    description: Surfaces brûlées Sentinel 2020 considérées comme validées. Une vue de surfaces_detectees_2020
+    driver: intake_geopandas.geopandas.PostGISSource
+
+  sentinel_surfaces_detectees_2020_vfinale:
+    args:
+      geopandas_kwargs:
+        geom_col: geometry
+        crs: 3163
+      sql_expr: select * from processing."sentinel_surfaces_detectees_2020_vfinale"
+      table: processing."sentinel_surfaces_detectees_2020_vfinale"
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_WORKSPACE")}}
+    description: L'ensemble des surfaces de Sentinel 2020 pour la détection de surfaces brûlées avec photo-interprétation
+    driver: intake_geopandas.geopandas.PostGISSource
+  sentinel_incendies_2019:
+    args:
+      geopandas_kwargs:
+        geom_col: geometry
+        crs: 3163
+      sql_expr: select * from bilanincendie2019.incendies2019
+      table: bilanincendie2019.incendies2019
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_WORKSPACE")}}
+    description: Incendies Sentinel 2019
+    driver: intake_geopandas.geopandas.PostGISSource
+  sentinel_surfaces_detectees:
+    args:
+      geopandas_kwargs:
+        geom_col: geometry
+        crs: 3163
+      sql_expr: select * from feux_cq.sentinel_surfaces_detectees 
+      table: feux_cq.sentinel_surfaces_detectees
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_WORKSPACE")}}
+    description: Toutes les surfaces detectees par sentinel
+    driver: intake_geopandas.geopandas.PostGISSource
+  
+  sentinel_surfaces_detectees_old:
+    args:
+      geopandas_kwargs:
+        geom_col: geometry
+        crs: 3163
+      sql_expr: select * from feux_cq.sentinel_surfaces_detectees_old where date_ >= '2023-01-01' and date_<= '2023-12-31'
+      table: feux_cq.sentinel_surfaces_detectees_old
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_WORKSPACE")}}
+    description: Toutes les surfaces detectees par sentinel old
+    driver: intake_geopandas.geopandas.PostGISSource
+
+  sentinel_surfaces_detectees_2019_belep:
+    args:
+      geopandas_kwargs:
+        geom_col: geometry
+        crs: 3163
+      sql_expr: select * from feux_cq.sentinel_surfaces_detectees where commune = 'BELEP' and date_ >= '2019-1-1' and date_ < '2020-1-1'
+      table: feux_cq.sentinel_surfaces_detectees
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_WORKSPACE")}}
+    description: Toutes les surfaces detectees par sentinel
+    driver: intake_geopandas.geopandas.PostGISSource
+  sentinel_informations_surfaces_detectees:
+    args:
+      sql_expr: select * from feux_cq.sentinel_informations_surfaces_detectees
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_WORKSPACE")}}
+    description: Toutes les informations de surfaces detectees par sentinel
+    driver: intake_sql.SQLSource
+  sentinelv1_surfaces_detectees:
+    args:
+      geopandas_kwargs:
+        geom_col: geometry
+        crs: 3163
+      sql_expr: select * from feux_cq.sentinelv1_surfaces_detectees_fusion
+      table: feux_cq.sentinelv1_surfaces_detectees_fusion
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_WORKSPACE")}}
+    description: Toutes les surfaces detectees par sentinel de la chaine V1
+    driver: intake_geopandas.geopandas.PostGISSource
+  sentinelv1_informations_surfaces_detectees:
+    args:
+      sql_expr: select * from feux_cq.sentinelv1_informations_surfaces_detectees
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_WORKSPACE")}}
+    description: Toutes les informations de surfaces detectees par sentinel de la chaine v1
+    driver: intake_sql.SQLSource
+  MOS_aberrations_2014:
+    args:
+      geopandas_kwargs:
+        geom_col: geometry
+        crs: 3163
+      sql_expr: select * from mos.mos2014_pn_ps_pi_mer where l_2014_n3 = 'Eaux continentales' or l_2014_n3 = 'Tissu urbain discontinu' or l_2014_n3 = 'Réseaux de communication' or l_2014_n3 = 'Tissu urbain continu' or l_2014_n3 = 'Mines, décharges minières, infrastructures et chantiers miniers' or l_2014_n3 = 'Zones industrielles ou commerciales et équipements' or l_2014_n3 = 'Zones humides intérieures' or l_2014_n3 = 'Plages, dunes et sable' or l_2014_n3 = 'Plages, dunes, sable' or l_2014_n3 = 'Roches et sols nus' or l_2014_n3 = 'Eaux maritimes' or l_2014_n3 = 'Mer'
+      table: mos.mos2014_pn_ps_pi_mer
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_EXT")}}
+    description: classes aberrantes du MOS 2014 pour les feux
+    driver: intake_geopandas.geopandas.PostGISSource
+  sentinelv1_zones_brulees_2017:
+    args:
+      geopandas_kwargs:
+        geom_col: geometry
+        crs: 3163
+      sql_expr: select * from feux.sentinelv1_zones_brulees_2017
+      table: feux.sentinelv1_zones_brulees_2017
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_REF")}}
+    description: zones brulees 2017 sur la version 1 de la chaine INSIGHT
+    driver: intake_geopandas.geopandas.PostGISSource
+  sentinelv1_zones_brulees_2018:
+    args:
+      geopandas_kwargs:
+        geom_col: geometry
+        crs: 3163
+      sql_expr: select * from feux.sentinelv1_zones_brulees_2018
+      table: processing.sentinelv1_zones_brulees_2018
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_REF")}}
+    description: zones brulees 2018 sur la version 1 de la chaine INSIGHT
+    driver: intake_geopandas.geopandas.PostGISSource
+  sentinel_zones_brulees_2019:
+    args:
+      geopandas_kwargs:
+        geom_col: geometry
+        crs: 3163
+      sql_expr: select * from feux.sentinel_zones_brulees where annee = 2019
+      table: feux.sentinel_zones_brulees
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_REF")}}
+    description: zones brulees 2019 sur la version 2 de la chaine INSIGHT
+    driver: intake_geopandas.geopandas.PostGISSource
+  sentinel_zones_brulees_2019_belep:
+    args:
+      geopandas_kwargs:
+        geom_col: geometry
+        crs: 3163
+      sql_expr: select * from feux.sentinel_zones_brulees where annee = 2019 and zb_id >= 10687
+      table: feux.sentinel_zones_brulees
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_REF")}}
+    description: zones brulees 2019 sur la version 2 de la chaine INSIGHT seulement sur BELEP
+    driver: intake_geopandas.geopandas.PostGISSource
+  sentinelv1_zones_brulees_2020:
+    args:
+      geopandas_kwargs:
+        geom_col: geometry
+        crs: 3163
+      sql_expr: select * from feux.sentinel_zones_brulees where annee = 2020
+      table: feux.sentinel_zones_brulees
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_REF")}}
+    description: zones brulees 2020 sur la version 2 de la chaine INSIGHT
+    driver: intake_geopandas.geopandas.PostGISSource
+  sentinel_zones_brulees_2021:
+    args:
+      geopandas_kwargs:
+        geom_col: geometry
+        crs: 3163
+      sql_expr: select * from feux.sentinel_zones_brulees_2021 where annee = 2021
+      table: feux.sentinel_zones_brulees
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_REF")}}
+    description: zones brulees 2018 sur la version 2 de la chaine INSIGHT
+    
+    driver: intake_geopandas.geopandas.PostGISSource
+  sentinel_zones_brulees:
+    args:
+      geopandas_kwargs:
+        geom_col: geometry
+        crs: 3163
+      sql_expr: select * from feux.sentinel_zones_brulees
+      table: feux.vue_sentinel_zones_brulees
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_REF")}}
+    description: zones brulees combinant V1 2017 et 2018 et V2 2019, 2020, 2021 de la chaine INSIGHT
+    driver: intake_geopandas.geopandas.PostGISSource
+    
+  incendie_viirs_snpp:
+    args:
+      geopandas_kwargs:
+        geom_col: shape
+        crs: 3163
+      sql_expr: select * from feux.incendie_viirs_snpp
+      table: feux.incendie_viirs_snpp
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_REF")}}
+    description: incendies VIIRS du satellite SNPP provenant de FME SQL Server sur geoportail.oeil.nc
+    driver: intake_geopandas.geopandas.PostGISSource
+
+  incendie_viirs_noaa20:
+    args:
+      geopandas_kwargs:
+        geom_col: shape
+        crs: 3163
+      sql_expr: select * from feux.incendie_viirs_noaa20
+      table: feux.incendies_viirs_noaa20
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_REF")}}
+    description: incendies VIIRS du satellite NOAA20 provenant de FME SQL Server sur geoportail.oeil.nc
+    driver: intake_geopandas.geopandas.PostGISSource
+
+  incendies_VIIRS_NOAA20:
+    args:
+      geopandas_kwargs:
+        geom_col: geometry
+        crs: 3163
+      sql_expr: select *, 'noaa' as capteur from feux.incendie_viirs_noaa20_maj
+      table: feux.incendie_viirs_noaa20_maj
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_REF")}}
+    description: incendies VIIRS du satellite NOAA20 pour 2023 provenant de FME SQL Server sur geoportail.oeil.nc
+    driver: intake_geopandas.geopandas.PostGISSource
+
+  incendies_VIIRS_SNPP:
+    args:
+      geopandas_kwargs:
+        geom_col: geometry
+        crs: 3163
+      sql_expr: select *, 'snpp' as capteur from feux.incendie_viirs_snpp_maj
+      table: feux.incendie_viirs_snpp_maj
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_REF")}}
+    description: incendies VIIRS du satellite NPP pour 2023 provenant de FME SQL Server sur geoportail.oeil.nc
+    driver: intake_geopandas.geopandas.PostGISSource
+
+  perimetres_ppe_existant:
+    args:
+      geopandas_kwargs:
+        geom_col: geometry
+        crs: 3163
+      sql_expr: select * from carto.ppe_existants_geom
+      table: carto.ppe_existants_geom
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_REF")}}
+    description: 'Perimetre de protection des eaux existants'
+    driver: intake_geopandas.geopandas.PostGISSource
+  
+  perimetres_ppe_en_cours:
+    args:
+      geopandas_kwargs:
+        geom_col: geometry
+        crs: 3163
+      sql_expr: select * from carto.ppe_en_cours_geom
+      table: carto.ppe_en_cours_geom
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_REF")}}
+    description: 'Perimetre de protection des eaux en cours'
+    driver: intake_geopandas.geopandas.PostGISSource
+  
+  bv_producteurs_eau_potable:
+    args:
+      geopandas_kwargs:
+        geom_col: geometry
+        crs: 3163
+      sql_expr: select * from davar.bassins_versants_producteurs_eau_potable
+      table: davar.bassins_versants_producteurs_eau_potable
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_EXT")}}
+    description: 'Bassins versants producteurs d''eau potable fournis par la DAVAR remis à l''OEIL en 2018'
+    driver: intake_geopandas.geopandas.PostGISSource
+  sentinel_2020_cq:
+    args:
+      geopandas_kwargs:
+        geom_col: geometry
+        crs: 3163
+      sql_expr: select * from feux_cq.sentinel_surface_detectees_2020_cq
+      table: feux_cq.sentinel_surface_detectees_2020_cq
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_WORKSPACE")}}
+    description: 'Surface brulee sentinel photo interpretate en 2020'
+    driver: intake_geopandas.geopandas.PostGISSource
+  geol_50_ultramafique:
+    args:
+      geopandas_kwargs:
+        geom_col: geometry
+        crs: 3163
+      sql_expr: select * from carto.substrat_geol_50000
+      table: carto.substrat_geol_50000
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_REF")}}
+    description: Surface geologique avec l'information sur les grands types de substrats
+    driver: intake_geopandas.geopandas.PostGISSource
+  ppe_statut_v3:
+    args:
+      geopandas_kwargs:
+        geom_col: geometry
+        crs: 3163
+      sql_expr: select * from davar.ppe_statut_v3
+      table: davar.ppe_statut_v3
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_EXT")}}
+    description: Surface geologique avec l'information sur les grands types de substrats
+    driver: intake_geopandas.geopandas.PostGISSource
+  sentinel_surfaces_detectees_pi:
+    args:
+      geopandas_kwargs:
+        geom_col: geometry
+        crs: 3163
+      sql_expr: select * from feux_cq.sentinel_surfaces_detectees_pi where date_ >= to_timestamp('01-01-2023 00:00:00', 'dd-mm-yyyy hh24:mi:ss') and date_ <= to_timestamp('31-12-2023 00:00:00', 'dd-mm-yyyy hh24:mi:ss')
+      table: feux_cq.sentinel_surfaces_detectees_pi
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_WORKSPACE")}}
+    description: Toutes les surfaces detectees par sentinel pour la PI
+    driver: intake_geopandas.geopandas.PostGISSource
+
+  vue_fait_zae_surface_detectees:
+    args:
+      geopandas_kwargs:
+        geom_col: geometry
+        crs: 3163
+      sql_expr: select * from feux_cq.vue_fait_zae_surface_detectees  
+      table: feux_cq.vue_fait_zae_surface_detectees
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_WORKSPACE")}}
+    description: vue des zae impactees par les feux
+    driver: intake_geopandas.geopandas.PostGISSource
+  
+  surfaces_brulees_brute_control:
+    args:
+      geopandas_kwargs:
+        geom_col: geometry
+        crs: 3163
+      sql_expr: select * from feux_cq.surfaces_brulees_brute_control where date_ >= '2023-01-01' and date_<= '2023-12-31'
+      table: feux_cq.surfaces_brulees_brute_control
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_WORKSPACE")}}
+    description: surfaces_brulees_brute_control
+    driver: intake_geopandas.geopandas.PostGISSource
+
+  faits_zae_sentinel_surfaces_detectees_2023:
+    args:
+      geopandas_kwargs:
+        geom_col: geometry
+        crs: 3163
+      sql_expr: select * from feux_cq.faits_zae_sentinel_surfaces_detectees_2023  
+      table: feux_cq.faits_zae_sentinel_surfaces_detectees_2023
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_WORKSPACE")}}
+    description: vue des zae impactees par les feux
+    driver: intake_geopandas.geopandas.PostGISSource
+
+  vue_sentinel_surfaces_detectees_2021:
+    args:
+      geopandas_kwargs:
+        geom_col: geometry
+        crs: 3163
+      sql_expr: select * from feux_cq.vue_sentinel_surfaces_detectees_2021  
+      table: feux_cq.vue_sentinel_surfaces_detectees_2021
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_WORKSPACE")}}
+    description: vue_sentinel_surfaces_detectees_2021 polygones non regroupés
+    driver: intake_geopandas.geopandas.PostGISSource
+
+  vue_zae_surface_detectees:
+    args:
+      geopandas_kwargs:
+        geom_col: geometry
+        crs: 3163
+      sql_expr: select * from feux_cq.vue_zae_surface_detectees  
+      table: feux_cq.vue_zae_surface_detectees
+      uri: postgresql://{{env("DB_USER")}}:{{env("DB_PWD")}}@{{env("DB_HOST")}}:{{env("DB_PORT")}}/{{env("DB_WORKSPACE")}}
+    description: vue des surfaces brulees intersectees par les zae
+    driver: intake_geopandas.geopandas.PostGISSource
