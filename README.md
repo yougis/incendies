@@ -9,7 +9,7 @@ Un filtrage des données est réalisé grâce à un choix d'intervalle de date v
 Plusieurs modes sont disponibles dans cette application de nouveaux modes peuvent être ajoutés en suivant la logique fournie dans le script.
 ## Modes
 
-5 modes ont été ajouter à l'application afin de répondres à nos demandes :
+5 modes ont été ajoutés à l'application afin de répondres à nos demandes :
 
 **Mode par groupe :**  
 
@@ -50,11 +50,15 @@ Une liste déroulante des 7 HER de Nouvelle-Calédonie + "Hors_HER" permettront 
     - une map avec l'image sentinel-2 en false color infra-red à la date de détection 
     - une map contenant une collection d'image déterminer selon un intervalle de jours modifiable par l'utilisateur  
  
+Pour accéder aux sources de données Sentinel-2 sur GEE on utilise un fichier contenant les logins/mdp pour accéder au compte GEE, les informations sont contenues dans le fichier "gee_credantials.json"  
 ## Déployement 
 
 Le script est déployé sur le serveur Mordor grâce à Docker à l'addresse suivante : http://172.20.12.13:8086/ , il utilise la technologie "Voilà" pour le déployement et il est nécessaire d'être connecté au Wifi de l'OEIL ou via le VPN fortiClient pour y accéder.  
 L'environnement conda utile est contenu dans le fichier "environnement.yaml"
 
+Le script peut aussi être lancé via la commande suivante pour des phases de tests :    
+
+    voila app_stl2_fire_detection_V2.ipynb --no-browser --port=8080
 -----------------------------------------------------------
 # L'application de visualisation d'images Sentinel-2 
 -----------------------------------------------------------
