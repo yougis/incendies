@@ -56,6 +56,9 @@ Pour accéder aux sources de données Sentinel-2 sur GEE, on utilise un fichier 
 Le script est déployé sur le serveur Mordor grâce à Docker à l'addresse suivante : http://172.20.12.13:8086/ , il utilise la technologie "Voilà" pour le déployement et il est nécessaire d'être connecté au Wifi de l'OEIL ou via le VPN fortiClient pour y accéder.  
 L'environnement conda utile est contenu dans le fichier "environnement.yaml"
 
+1) il faut créer l'image grâce au Dockerfile
+2) Créer le contenair avec la commande suivante : docker run -d -p 8086:8086 -p 8087:8087 appl-pi-stl2
+
 Le script peut aussi être lancé via la commande suivante pour des phases de tests :    
 
     voila app_stl2_fire_detection_V2.ipynb --no-browser --port=8080
